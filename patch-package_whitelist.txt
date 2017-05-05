@@ -1,0 +1,17 @@
+diff --git a/core/tasks/check_boot_jars/package_whitelist.txt b/core/tasks/check_boot_jars/package_whitelist.txt
+old mode 100644
+new mode 100755
+index 3cb6e28..19932db
+--- a/core/tasks/check_boot_jars/package_whitelist.txt
++++ b/core/tasks/check_boot_jars/package_whitelist.txt
+@@ -227,3 +227,10 @@ org\.apache\.xalan\.extensions
+ org\.apache\.xalan\.processor
+ org\.apache\.xalan\.transformer
+ org\.apache\.xalan\.xslt
++
++###################################################
++# Classes For NFC
++com\.nxp\..*
++com\.vzw\..*
++com\.nxp-nfc-gsma\..*
++com\.gsma\..* 

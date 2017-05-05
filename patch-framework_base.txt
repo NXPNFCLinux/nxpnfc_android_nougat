@@ -1,0 +1,38 @@
+diff --git a/Android.mk b/Android.mk
+old mode 100644
+new mode 100755
+index dec667e..692b3fd
+--- a/Android.mk
++++ b/Android.mk
+@@ -209,11 +209,21 @@ LOCAL_SRC_FILES += \
+ 	core/java/android/net/INetworkStatsSession.aidl \
+ 	core/java/android/net/nsd/INsdManager.aidl \
+ 	core/java/android/nfc/IAppCallback.aidl \
++	core/java/com/nxp/nfc/gsma/internal/INxpNfcController.aidl \
++	core/java/com/nxp/nfc/INxpNfcAdapter.aidl \
++	core/java/com/nxp/nfc/INxpNfcAdapterExtras.aidl \
++	core/java/com/nxp/nfc/INfcVzw.aidl \
+ 	core/java/android/nfc/INfcAdapter.aidl \
+ 	core/java/android/nfc/INfcAdapterExtras.aidl \
+ 	core/java/android/nfc/INfcTag.aidl \
+ 	core/java/android/nfc/INfcCardEmulation.aidl \
+ 	core/java/android/nfc/INfcFCardEmulation.aidl \
++	core/java/com/nxp/intf/ILoaderService.aidl \
++	core/java/com/nxp/intf/IJcopService.aidl \
++	core/java/com/nxp/intf/INxpExtrasService.aidl \
++	core/java/com/nxp/intf/IeSEClientServicesAdapter.aidl \
++	core/java/com/nxp/nfc/INfcDta.aidl \
++	core/java/com/nxp/nfc/INxpNfcAccessExtras.aidl \
+ 	core/java/android/nfc/INfcUnlockHandler.aidl \
+ 	core/java/android/nfc/ITagRemovedCallback.aidl \
+ 	core/java/android/os/IBatteryPropertiesListener.aidl \
+@@ -713,6 +723,9 @@ $(gen): $(aidl_files) | $(AIDL)
+ # TODO: deal with com/google/android/googleapps
+ packages_to_document := \
+ 	android \
++	com/nxp/nfc \
++	com/nxp/intf \
++	com/nxp/nfc/gsma/internal \
+ 	javax/microedition/khronos \
+ 	org/apache/http/conn \
+ 	org/apache/http/params

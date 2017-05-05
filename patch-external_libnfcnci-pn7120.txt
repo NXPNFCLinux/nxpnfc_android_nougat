@@ -1,0 +1,127 @@
+diff --git a/Android.mk b/Android.mk
+index 28c22be..481a7a9 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -48,7 +48,7 @@ LOCAL_CFLAGS += -DJCOP_VER_3_2=$(JCOP_VER_3_2)
+ LOCAL_CFLAGS += -DJCOP_VER_3_3=$(JCOP_VER_3_3)
+ LOCAL_CFLAGS += -DJCOP_VER_4_0=$(JCOP_VER_4_0)
+ 
+-NFC_NXP_ESE:= TRUE
++NFC_NXP_ESE:= FALSE
+ ifeq ($(NFC_NXP_ESE),TRUE)
+ LOCAL_CFLAGS += -DNFC_NXP_ESE=TRUE
+ LOCAL_CFLAGS += -DNFC_NXP_ESE_VER=$(JCOP_VER_4_0)
+@@ -57,7 +57,7 @@ LOCAL_CFLAGS += -DNFC_NXP_ESE=FALSE
+ endif
+ 
+ #### Select the CHIP ####
+-NXP_CHIP_TYPE := $(PN553)
++NXP_CHIP_TYPE := $(PN547C2)
+ 
+ ifeq ($(NXP_CHIP_TYPE),$(PN547C2))
+ D_CFLAGS += -DNFC_NXP_CHIP_TYPE=PN547C2
+diff --git a/halimpl/pn54x/Android.mk b/halimpl/pn54x/Android.mk
+index e47bde8..0bedfde 100644
+--- a/halimpl/pn54x/Android.mk
++++ b/halimpl/pn54x/Android.mk
+@@ -50,7 +50,7 @@ D_CFLAGS += -DPN553=4
+ endif
+ 
+ #### Select the CHIP ####
+-NXP_CHIP_TYPE := $(PN553)
++NXP_CHIP_TYPE := $(PN547C2)
+ 
+ ifeq ($(NXP_CHIP_TYPE),$(PN547C2))
+ D_CFLAGS += -DNFC_NXP_CHIP_TYPE=PN547C2
+@@ -65,7 +65,7 @@ endif
+ LOCAL_PATH := $(call my-dir)
+ include $(CLEAR_VARS)
+ ifeq ($(NXP_CHIP_TYPE),$(PN547C2))
+-LOCAL_MODULE := nfc_nci_pn547.grouper
++LOCAL_MODULE := nfc_nci.pn54x.default
+ else ifeq ($(NXP_CHIP_TYPE),$(PN548C2))
+ LOCAL_MODULE := nfc_nci.pn54x.default
+ else ifeq ($(NXP_CHIP_TYPE),$(PN551))
+@@ -97,7 +97,7 @@ LOCAL_C_INCLUDES += \
+ LOCAL_CFLAGS += -DANDROID \
+         -DNXP_HW_SELF_TEST
+ LOCAL_CFLAGS += -DNFC_NXP_HFO_SETTINGS=FALSE
+-NFC_NXP_ESE:= TRUE
++NFC_NXP_ESE:= FALSE
+ ifeq ($(NFC_NXP_ESE),TRUE)
+ D_CFLAGS += -DNFC_NXP_ESE=TRUE
+ ifeq ($(NXP_CHIP_TYPE),$(PN553))
+diff --git a/halimpl/pn54x/hal/phNxpNciHal.c b/halimpl/pn54x/hal/phNxpNciHal.c
+old mode 100644
+new mode 100755
+index eb45d15..a3fbf36
+--- a/halimpl/pn54x/hal/phNxpNciHal.c
++++ b/halimpl/pn54x/hal/phNxpNciHal.c
+@@ -124,8 +124,8 @@ static void phNxpNciHal_enable_i2c_fragmentation();
+ static void phNxpNciHal_core_MinInitialized_complete(NFCSTATUS status);
+ static NFCSTATUS phNxpNciHal_set_Boot_Mode(uint8_t mode);
+ NFCSTATUS phNxpNciHal_check_clock_config(void);
+-NFCSTATUS phNxpNciHal_set_china_region_configs(void);
+ #if(NFC_NXP_CHIP_TYPE != PN547C2)
++NFCSTATUS phNxpNciHal_set_china_region_configs(void);
+ static NFCSTATUS phNxpNciHalRFConfigCmdRecSequence();
+ static NFCSTATUS phNxpNciHal_CheckRFCmdRespStatus();
+ #endif
+@@ -881,7 +881,7 @@ int phNxpNciHal_fw_mw_ver_check()
+     {
+         status = NFCSTATUS_SUCCESS;
+     }
+-    else if((!(strcmp(COMPILATION_MW,"PN547C2")) && (rom_version==0x08) && (fw_maj_ver == 0x01)))
++    else if((!(strcmp(COMPILATION_MW,"PN547C2")) && (rom_version==0x08)))
+     {
+         status = NFCSTATUS_SUCCESS;
+     }
+@@ -1529,11 +1529,12 @@ retry_core_init:
+     }
+     NXPLOG_NCIHAL_D ("EEPROM_fw_dwnld_flag : 0x%02x SetConfigAlways flag : 0x%02x", fw_dwnld_flag, setConfigAlways);
+ 
++#if(NFC_NXP_CHIP_TYPE != PN547C2)
+     if(fw_dwnld_flag == 0x01)
+     {
+         phNxpNciHal_check_delete_nfaStorage_DHArea();
+     }
+-
++#endif
+     if((TRUE == fw_dwnld_flag) || (TRUE == setConfigAlways) || isNxpRFConfigModified() || isNxpConfigModified())
+     {
+         config_access = TRUE;
+@@ -1971,7 +1972,7 @@ retry_core_init:
+             goto retry_core_init;
+         }
+ #endif
+-#if(NFC_NXP_CHIP_TYPE == PN547C2)
++#if 0
+         status = phNxpNciHal_uicc_baud_rate();
+         if (status != NFCSTATUS_SUCCESS) {
+             NXPLOG_NCIHAL_E("Setting NXP_CORE_RF_FIELD status failed");
+@@ -2817,9 +2818,7 @@ int phNxpNciHal_close(void)
+     {
+         NXPLOG_NCIHAL_E ("NCI_CORE_RESET: Failed");
+     }
+-#if (NXP_NFCC_I2C_READ_WRITE_IMPROVEMENT == TRUE)
+     close_and_return:
+-#endif
+     if (NULL != gpphTmlNfc_Context->pDevHandle)
+     {
+         phNxpNciHal_close_complete(NFCSTATUS_SUCCESS);
+diff --git a/halimpl/pn54x/tml/phTmlNfc.c b/halimpl/pn54x/tml/phTmlNfc.c
+old mode 100644
+new mode 100755
+index bf9c98a..1e97717
+--- a/halimpl/pn54x/tml/phTmlNfc.c
++++ b/halimpl/pn54x/tml/phTmlNfc.c
+@@ -356,9 +356,7 @@ static void phTmlNfc_TmlThread(void *pParam)
+     NFCSTATUS wStatus = NFCSTATUS_SUCCESS;
+     int32_t dwNoBytesWrRd = PH_TMLNFC_RESET_VALUE;
+     uint8_t temp[260];
+-#if (NXP_NFCC_I2C_READ_WRITE_IMPROVEMENT == TRUE)
+     static uint8_t read_count = 0;
+-#endif
+ 
+     /* Transaction info buffer to be passed to Callback Thread */
+     static phTmlNfc_TransactInfo_t tTransactionInfo;

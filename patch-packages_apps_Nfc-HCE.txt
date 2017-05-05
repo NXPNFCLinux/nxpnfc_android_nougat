@@ -1,0 +1,29 @@
+diff --git a/nci/jni/RoutingManager.cpp b/nci/jni/RoutingManager.cpp
+old mode 100644
+new mode 100755
+index 2d9c489..5797907
+--- a/nci/jni/RoutingManager.cpp
++++ b/nci/jni/RoutingManager.cpp
+@@ -654,9 +654,19 @@ bool RoutingManager::setDefaultRoute(const UINT8 defaultRoute, const UINT8 proto
+     static const char fn []   = "RoutingManager::setDefaultRoute";
+     tNFA_STATUS       nfaStat = NFA_STATUS_FAILED;
+ 
+-    ALOGD ("%s: enter; defaultRoute:0x%2X protoRoute:0x%2X TechRoute:0x%2X HostListenMask:0x%X", fn, defaultRoute, protoRoute, techRoute, mHostListnTechMask);
+-
+-    extractRouteLocationAndPowerStates(defaultRoute,protoRoute,techRoute);
++	UINT8 ldefaultRoute = defaultRoute;
++	UINT8 lprotoRoute = protoRoute;
++	UINT8 ltechRoute = techRoute;
++	
++	if(defaultRoute == 0) {
++		ldefaultRoute = 0x1;
++		lprotoRoute = protoRoute | 0x3;
++		ltechRoute = techRoute | 0x23;	
++	}
++
++    ALOGD ("%s: enter; defaultRoute:0x%2X protoRoute:0x%2X TechRoute:0x%2X HostListenMask:0x%X", fn, ldefaultRoute, lprotoRoute, ltechRoute, mHostListnTechMask);
++
++    extractRouteLocationAndPowerStates(ldefaultRoute,lprotoRoute,ltechRoute);
+ 
+     if (mHostListnTechMask)
+     {

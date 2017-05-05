@@ -1,0 +1,44 @@
+diff --git a/Android.mk b/Android.mk
+index 28c22be..7b6cad4 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -48,7 +48,7 @@ LOCAL_CFLAGS += -DJCOP_VER_3_2=$(JCOP_VER_3_2)
+ LOCAL_CFLAGS += -DJCOP_VER_3_3=$(JCOP_VER_3_3)
+ LOCAL_CFLAGS += -DJCOP_VER_4_0=$(JCOP_VER_4_0)
+ 
+-NFC_NXP_ESE:= TRUE
++NFC_NXP_ESE:= FALSE
+ ifeq ($(NFC_NXP_ESE),TRUE)
+ LOCAL_CFLAGS += -DNFC_NXP_ESE=TRUE
+ LOCAL_CFLAGS += -DNFC_NXP_ESE_VER=$(JCOP_VER_4_0)
+@@ -57,7 +57,7 @@ LOCAL_CFLAGS += -DNFC_NXP_ESE=FALSE
+ endif
+ 
+ #### Select the CHIP ####
+-NXP_CHIP_TYPE := $(PN553)
++NXP_CHIP_TYPE := $(PN548C2)
+ 
+ ifeq ($(NXP_CHIP_TYPE),$(PN547C2))
+ D_CFLAGS += -DNFC_NXP_CHIP_TYPE=PN547C2
+diff --git a/halimpl/pn54x/Android.mk b/halimpl/pn54x/Android.mk
+index e47bde8..36bd7a9 100644
+--- a/halimpl/pn54x/Android.mk
++++ b/halimpl/pn54x/Android.mk
+@@ -50,7 +50,7 @@ D_CFLAGS += -DPN553=4
+ endif
+ 
+ #### Select the CHIP ####
+-NXP_CHIP_TYPE := $(PN553)
++NXP_CHIP_TYPE := $(PN548C2)
+ 
+ ifeq ($(NXP_CHIP_TYPE),$(PN547C2))
+ D_CFLAGS += -DNFC_NXP_CHIP_TYPE=PN547C2
+@@ -97,7 +97,7 @@ LOCAL_C_INCLUDES += \
+ LOCAL_CFLAGS += -DANDROID \
+         -DNXP_HW_SELF_TEST
+ LOCAL_CFLAGS += -DNFC_NXP_HFO_SETTINGS=FALSE
+-NFC_NXP_ESE:= TRUE
++NFC_NXP_ESE:= FALSE
+ ifeq ($(NFC_NXP_ESE),TRUE)
+ D_CFLAGS += -DNFC_NXP_ESE=TRUE
+ ifeq ($(NXP_CHIP_TYPE),$(PN553))
