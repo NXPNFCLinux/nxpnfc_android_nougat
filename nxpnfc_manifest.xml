@@ -3,15 +3,15 @@
   <remote name="github_nfc" fetch="https://github.com" />
   
   <remove-project name="platform/external/libnfc-nci" />
-  <project path="external/libnfc-nci" name="NXPNFCProject/NFC_NCIHAL_libnfc-nci" remote="github_nfc" revision="refs/tags/NFC_NCIHALx_ARC0.7.3.0_N_OpnSrc"/>
+  <project path="external/libnfc-nci" name="NXPNFCProject/NFC_NCIHAL_libnfc-nci" remote="github_nfc" revision="refs/tags/NFC_NCIHALx_AR3C.7.4.0_N_OpnSrc"/>
 
   <remove-project name="platform/packages/apps/Nfc" />
-  <project path="packages/apps/Nfc" name="NXPNFCProject/NFC_NCIHAL_Nfc" remote="github_nfc" revision="refs/tags/NFC_NCIHALx_ARC0.7.3.0_N_OpnSrc"/>
+  <project path="packages/apps/Nfc" name="NXPNFCProject/NFC_NCIHAL_Nfc" remote="github_nfc" revision="refs/tags/NFC_NCIHALx_AR3C.7.4.0_N_OpnSrc"/>
 
-  <project path="NxpNfcAndroid/NXPNFC_Reference" name="NXPNFCProject/NXPNFC_Reference" remote="github_nfc" revision="refs/tags/NFC_NCIHALx_ARC0.7.3.0_N_OpnSrc">
+  <project path="NxpNfcAndroid/NXPNFC_Reference" name="NXPNFCProject/NXPNFC_Reference" remote="github_nfc" revision="refs/tags/NFC_NCIHALx_AR3C.7.4.0_N_OpnSrc">
 	<copyfile src="hardware/libhardware/include/hardware/nfc.h" dest="hardware/libhardware/include/hardware/nfc.h" />
   </project>
 
-  <project path="NxpNfcAndroid/NFC_NCIHAL_base" name="NXPNFCProject/NFC_NCIHAL_base" remote="github_nfc" revision="refs/tags/NFC_NCIHALx_ARC0.7.3.0_N_OpnSrc"/>
+  <project path="NxpNfcAndroid/NFC_NCIHAL_base" name="NXPNFCProject/NFC_NCIHAL_base" remote="github_nfc" revision="refs/tags/NFC_NCIHALx_AR3C.7.4.0_N_OpnSrc"/>
 
 </manifest>
